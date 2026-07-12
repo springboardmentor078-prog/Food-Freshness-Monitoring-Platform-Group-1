@@ -1,1 +1,1 @@
-# Food-Freshness-Monitoring-Platform-Group-1
+# Food-Freshness-Monitoring-Platform-Group-2
