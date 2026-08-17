@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException
 from app.database.connection import db
 from app.models.user import User
 from app.database.crud import create_user
-from app.utils.auth_utils import verify_password
 from app.utils.auth_utils import verify_password, create_access_token
 
 router = APIRouter()

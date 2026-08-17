@@ -3,15 +3,25 @@ from bson import ObjectId
 
 from app.database.connection import db
 from app.models.food_item import FoodItem
-from app.services.freshness import calculate_freshness
-
 from app.models.user import User
+from app.services.freshness import calculate_freshness
 from app.utils.auth_utils import hash_password
+
+
+# Collections
 collection = db["food_items"]
+users_collection = db["users"]
 
 
-def create_food_item(food_item: FoodItem):
+# =========================
+# FOOD ITEM FUNCTIONS
+# =========================
+
+def create_food_item(food_item: FoodItem, user_id: str):
     data = food_item.model_dump()
+
+    # Store the logged-in user's ID
+    data["user_id"] = user_id
 
     if data.get("purchase_date"):
         data["purchase_date"] = datetime.combine(
@@ -25,13 +35,23 @@ def create_food_item(food_item: FoodItem):
             time.min
         )
 
+    # Calculate freshness status
+    data["status"] = calculate_freshness(
+        food_item.expiry_date
+    )
+
     result = collection.insert_one(data)
 
     return str(result.inserted_id)
 
 
-def get_food_items():
-    food_items = list(collection.find())
+def get_food_items(user_id: str):
+    # Get only foods belonging to the logged-in user
+    food_items = list(
+        collection.find({
+            "user_id": user_id
+        })
+    )
 
     for item in food_items:
         item["_id"] = str(item["_id"])
@@ -39,7 +59,11 @@ def get_food_items():
     return food_items
 
 
-def update_food_item(food_id: str, food_item: FoodItem):
+def update_food_item(
+    food_id: str,
+    food_item: FoodItem,
+    user_id: str
+):
     data = food_item.model_dump()
 
     if data.get("purchase_date"):
@@ -53,11 +77,20 @@ def update_food_item(food_id: str, food_item: FoodItem):
             data["expiry_date"],
             time.min
         )
-    data["status"] = calculate_freshness(food_item.expiry_date)
+
+    # Recalculate freshness after update
+    data["status"] = calculate_freshness(
+        food_item.expiry_date
+    )
 
     result = collection.update_one(
-        {"_id": ObjectId(food_id)},
-        {"$set": data}
+        {
+            "_id": ObjectId(food_id),
+            "user_id": user_id
+        },
+        {
+            "$set": data
+        }
     )
 
     if result.matched_count == 0:
@@ -66,9 +99,15 @@ def update_food_item(food_id: str, food_item: FoodItem):
     return True
 
 
-def delete_food_item(food_id: str):
+def delete_food_item(
+    food_id: str,
+    user_id: str
+):
     result = collection.delete_one(
-        {"_id": ObjectId(food_id)}
+        {
+            "_id": ObjectId(food_id),
+            "user_id": user_id
+        }
     )
 
     if result.deleted_count == 0:
@@ -76,16 +115,22 @@ def delete_food_item(food_id: str):
 
     return True
 
-users_collection = db["users"]
 
+# =========================
+# USER FUNCTIONS
+# =========================
 
 def create_user(user: User):
-    existing_user = users_collection.find_one({"email": user.email})
+    existing_user = users_collection.find_one({
+        "email": user.email
+    })
 
     if existing_user:
         return None
 
-    hashed_password = hash_password(user.password)
+    hashed_password = hash_password(
+        user.password
+    )
 
     user_data = {
         "name": user.name,
@@ -94,6 +139,8 @@ def create_user(user: User):
         "role": user.role
     }
 
-    result = users_collection.insert_one(user_data)
+    result = users_collection.insert_one(
+        user_data
+    )
 
     return str(result.inserted_id)
