@@ -1,78 +1,125 @@
-# Food Freshness Assessment & Prediction Platform - Full Source Code
+# FreshSense AI — Food Freshness Monitoring Platform
 
-> **Consolidated Source Code Document**  
-> This document aggregates all source code files across backend services, frontend pages/components, configuration, and model pipelines into a single file for easy sharing with LLMs (e.g. DeepSeek).
+![FreshSense Logo](https://img.icons8.com/color/96/leaf.png)
 
-# 1. Move into the backend folder
-cd backend
-python -m venv venv
-.\venv\Scripts\Activate
+> **AI-powered platform for real-time food freshness assessment, shelf-life prediction, and spoilage detection.**
 
-pip install -r requirements.txt
+FreshSense AI uses Computer Vision (YOLOv8) and Machine Learning (LightGBM) to analyze images of fruits and vegetables. Users can upload a photo of their food, and the system detects the fruit, highlights rotten areas with red contours, provides a freshness score (0–100), and predicts the remaining shelf life in days.
 
-# 5. Run the FastAPI server
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+---
 
-# 1. Move into the frontend folder
-cd frontend
-npm install
-npm run dev
+## 🚀 Features
 
-## Project Directory Structure Overview
+- **📷 AI-Powered Image Analysis** – Upload images for instant freshness detection.
+- **🔬 Multi-Fruit Segmentation** – Detects multiple fruits per image using YOLOv8.
+- **🎯 Accurate Bounding Boxes** – Perfect green boxes around every detected fruit.
+- **🔴 Visual Spoilage Detection** – Highlights brown spots, rot, and bruising with precise red contours using OpenCV.
+- **📊 Freshness Scoring Engine** – Dynamic score from 0–100 based on visual rot percentage.
+- **⏳ Shelf-Life Prediction** – LightGBM regression model predicts remaining days (R² = 95.98%).
+- **💡 Intelligent Recommendations** – AI-generated storage and consumption tips.
+- **📦 Full Inventory Management** – Add, edit, delete, and track food items.
+- **👤 Role-Based Access Control** – Supports Consumer, Retail Manager, and Administrator roles.
+- **📈 Interactive Dashboard** – Visual charts for inventory distribution and freshness trends.
+- **📜 Prediction History** – View past AI analysis results for any food item.
+
+---
+
+## 🧠 Machine Learning Models
+
+| Model | Architecture | Purpose | Performance |
+| :--- | :--- | :--- | :--- |
+| **Segmentation** | YOLOv8s-seg | Detects & crops fruits | Box mAP@50: 65.22% |
+| **Classification** | YOLOv8n-cls | Classifies Fresh vs Rotten | Test Top-1 Accuracy: 99.40% |
+| **Shelf-Life** | LightGBM | Predicts remaining days | R²: 95.98% |
+
+---
+
+## 🛠 Tech Stack
+
+### Backend
+- **Framework:** FastAPI
+- **Database:** SQLAlchemy (SQLite / PostgreSQL)
+- **Authentication:** JWT + Bcrypt
+- **Computer Vision:** OpenCV, Ultralytics YOLOv8
+- **ML Library:** LightGBM, Pandas, NumPy
+
+### Frontend
+- **Framework:** React.js (Vite)
+- **Styling:** Tailwind CSS (Glassmorphism UI)
+- **Charts:** Recharts
+- **API Client:** Axios
+- **Routing:** React Router DOM
+
+---
+
+## 📂 Project Structure
 
 ```text
 food-freshness-platform/
 ├── backend/
-│   ├── auth.py
-│   ├── database.py
-│   ├── main.py
-│   ├── models.py
-│   ├── requirements.txt
-│   ├── schemas.py
-│   ├── routers/
-│   │   ├── auth_router.py
-│   │   ├── food_items_router.py
-│   │   ├── images_router.py
-│   │   └── predictions_router.py
-│   └── services/
-│       ├── ai_service.py
-│       ├── classifier_service.py
-│       ├── defect_detection_service.py
-│       ├── scoring_service.py
-│       ├── segmentation_service.py
-│       └── shelf_life_service.py
+│   ├── main.py                # FastAPI entrypoint
+│   ├── models.py              # SQLAlchemy ORM
+│   ├── schemas.py             # Pydantic response models
+│   ├── routers/               # API route handlers
+│   └── services/              # AI and business logic
 ├── frontend/
 │   ├── index.html
 │   ├── package.json
-│   ├── postcss.config.js
-│   ├── tailwind.config.js
 │   ├── vite.config.js
+│   ├── tailwind.config.js
 │   └── src/
-│       ├── App.jsx
-│       ├── index.css
-│       ├── main.jsx
-│       ├── api/
-│       │   └── axios.js
-│       ├── components/
-│       │   ├── FreshnessCard.jsx
-│       │   ├── ImageUpload.jsx
-│       │   ├── Navbar.jsx
-│       │   ├── PredictionResult.jsx
-│       │   ├── ProtectedRoute.jsx
-│       │   └── StatCard.jsx
-│       ├── context/
-│       │   └── AuthContext.jsx
-│       └── pages/
-│           ├── AdminPage.jsx
-│           ├── DashboardPage.jsx
-│           ├── InventoryPage.jsx
-│           ├── LandingPage.jsx
-│           ├── LoginPage.jsx
-│           ├── RegisterPage.jsx
-│           └── ScanPage.jsx
-└── model/
-    ├── classification/ (yolov8n_cls .pt weights)
-    ├── segmentation/ (yolov8 seg weights & args)
-    └── shelf life/ (LightGBM shelf life model & notebooks)
-```
+│       ├── App.jsx            # Main routing
+│       ├── api/axios.js       # Centralized API client
+│       ├── context/           # Auth state management
+│       ├── components/        # Reusable UI components
+│       └── pages/             # Full-page views
+├── model/
+│   ├── classification/        # YOLOv8 .pt weights
+│   ├── segmentation/          # YOLOv8s-seg .pt weights
+│   └── shelf life/            # LightGBM .txt model
+└── yolov8n.pt                 # Base YOLO model
+⚙️ Installation & Setup
+Prerequisites
+Python 3.10+
+
+Node.js 18+
+
+1. Clone the repository
+bash
+git clone https://github.com/your-username/freshsense-ai.git
+cd freshsense-ai
+
+2. Backend Setup (PowerShell / Terminal)
+bash
+cd backend
+python -m venv venv
+
+# Windows (PowerShell)
+.\venv\Scripts\Activate
+
+# Mac/Linux
+source venv/bin/activate
+
+pip install -r requirements.txt
+uvicorn main:app --reload
+
+3. Frontend Setup (New Terminal)
+bash
+cd frontend
+npm install
+npm run dev
+
+4. Access the Application
+Open your browser and navigate to: http://localhost:5173
+
+🖥️ How to Use
+Register an account and log in.
+Go to Inventory and click Add Food Item to create a test item (e.g., "Banana").
+Go to Scan Food, select your item from the dropdown, and upload an image of the fruit.
+Wait for the analysis (6-step pipeline visible).
+View your results: Freshness Score, Shelf Life, Rot Percentage, and an annotated image showing green boxes + red rot contours.
+
+🐛 Known Issues & Future Work
+Segmentation Model: Currently trained on 22 classes. Expanding to 50+ classes is planned for future iterations.
+Real-Time IoT Integration: Future version will connect to live temperature/humidity sensors for automated data capture.
 
