@@ -1,0 +1,12 @@
+{
+    "test_r2": 0.9598165166219533,
+    "test_mae_days": 0.6449943821181061,
+    "training_samples": 8500,
+    "testing_samples": 1500,
+    "best_parameters": {
+        "num_leaves": 15,
+        "min_child_samples": 10,
+        "max_depth": 6,
+        "learning_rate": 0.15
+    }
+}

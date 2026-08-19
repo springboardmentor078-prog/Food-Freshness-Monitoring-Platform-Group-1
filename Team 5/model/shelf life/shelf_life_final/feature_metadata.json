@@ -1,0 +1,15 @@
+{
+    "feature_names": [
+        "produce_type",
+        "temperature_c",
+        "humidity_pct",
+        "storage_area",
+        "packaging_material",
+        "freshness_pct"
+    ],
+    "categorical_features": [
+        "produce_type",
+        "storage_area",
+        "packaging_material"
+    ]
+}
