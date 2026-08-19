@@ -1,4 +1,4 @@
-# Food-Freshness-Monitoring-Platform-Group-1
+# FreshTrack AI - Food Freshness & Spoilage Detection System
 
 An AI-powered web application for real-time food freshness scoring, shelf-life estimation, and localized spoilage defect detection using YOLOv8 deep learning and multi-spectral computer vision.
 
