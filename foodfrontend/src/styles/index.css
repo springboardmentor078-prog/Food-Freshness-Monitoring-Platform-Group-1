@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background-light text-slate-800 dark:bg-background-dark dark:text-slate-200 font-sans antialiased;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 dark:bg-slate-800/60 backdrop-blur-xl border border-white/20 dark:border-slate-700/30;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-primary-500/10 via-secondary-500/10 to-accent-500/10;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-primary-500/25 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-secondary-500/25 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply border-2 border-slate-200 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-400 text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 font-semibold py-2.5 px-6 rounded-xl transition-all duration-300 hover:bg-primary-50 dark:hover:bg-primary-500/10;
+  }
+
+  .btn-ghost {
+    @apply text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-500/10 font-medium py-2 px-4 rounded-lg transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-soft;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all duration-300;
+  }
+
+  .input-label {
+    @apply block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-success {
+    @apply bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-400;
+  }
+
+  .badge-warning {
+    @apply bg-accent-50 dark:bg-accent-500/15 text-accent-700 dark:text-accent-400;
+  }
+
+  .badge-danger {
+    @apply bg-danger-50 dark:bg-danger-500/15 text-danger-700 dark:text-danger-400;
+  }
+
+  .badge-info {
+    @apply bg-secondary-50 dark:bg-secondary-500/15 text-secondary-700 dark:text-secondary-400;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300;
+  }
+
+  .sidebar-link-active {
+    @apply bg-gradient-to-r from-primary-500/15 to-secondary-500/15 text-primary-600 dark:text-primary-400 font-semibold shadow-sm;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-slate-200 dark:bg-slate-700 rounded-lg;
+  }
+
+  .gauge-bg {
+    fill: none;
+    stroke: #e2e8f0;
+  }
+
+  .gauge-progress {
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease-out;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.upload-zone {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
+  border: 2px dashed rgba(16, 185, 129, 0.3);
+  transition: all 0.3s ease;
+}
+
+.upload-zone.dragging {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(37, 99, 235, 0.12) 100%);
+  border-color: rgba(16, 185, 129, 0.6);
+  transform: scale(1.01);
+}
+
+.bg-grid {
+  background-size: 40px 40px;
+  background-image: linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
+}
+
+.dark .bg-grid {
+  background-image: linear-gradient(rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(16, 185, 129, 0.06) 1px, transparent 1px);
+}
