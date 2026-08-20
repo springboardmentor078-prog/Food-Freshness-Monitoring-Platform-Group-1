@@ -1,0 +1,7 @@
+﻿*.zip
+*.exe
+bin/
+obj/
+.vs/
+.idea/
+node_modules/
