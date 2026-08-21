@@ -1,8 +1,5 @@
 # Food Freshness Assessment & Prediction Platform - Full Source Code
 
-> **Consolidated Source Code Document**  
-> This document aggregates all source code files across backend services, frontend pages/components, configuration, and model pipelines into a single file for easy sharing with LLMs (e.g. DeepSeek).
-
 # 1. Move into the backend folder
 cd backend
 python -m venv venv
